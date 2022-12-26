@@ -1,6 +1,9 @@
 #include "dtmf_dolphin_hal.h"
 
 void dtmf_dolphin_speaker_init() {
+    bool acq;
+    acq = furi_hal_speaker_acquire(1000);
+    if (acq) {
     LL_TIM_InitTypeDef TIM_InitStruct = {0};
     TIM_InitStruct.Prescaler = DTMF_DOLPHIN_HAL_DMA_PRESCALER;
     TIM_InitStruct.Autoreload = DTMF_DOLPHIN_HAL_DMA_AUTORELOAD;
@@ -11,6 +14,7 @@ void dtmf_dolphin_speaker_init() {
     TIM_OC_InitStruct.OCState = LL_TIM_OCSTATE_ENABLE;
     TIM_OC_InitStruct.CompareValue = 127;
     LL_TIM_OC_Init(FURI_HAL_SPEAKER_TIMER, FURI_HAL_SPEAKER_CHANNEL, &TIM_OC_InitStruct);
+    }
 }
 
 void dtmf_dolphin_speaker_start() {
